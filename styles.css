@@ -1,0 +1,384 @@
+/* ------------------------------------------------------------
+   Palette tirée de votre planche Pinterest
+   ------------------------------------------------------------ */
+:root {
+  --velours: #4b0508;        /* Red Inferno, profond */
+  --velours-clair: #7a1a22;
+  --velours-nuit: #2a0204;
+  --creme: #f1e9df;          /* Gardenia */
+  --creme-ombre: #e6dacb;
+  --sauge: #b2bc9e;          /* vert sauge */
+  --mousse: #7e9a3e;         /* Moss Green */
+  --bougie: #ecdcb8;         /* lumière de bougie */
+  --encre: #2a0c0e;          /* texte sur fond clair */
+
+  --display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --texte: "Jost", "Helvetica Neue", Arial, sans-serif;
+
+  --entete: 4.25rem;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--entete);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--creme);
+  color: var(--encre);
+  font-family: var(--texte);
+  font-weight: 400;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
+
+/* ---------- Bascule de langue ---------- */
+html[data-lang="fr"] .en { display: none !important; }
+html[data-lang="en"] .fr { display: none !important; }
+
+img { max-width: 100%; display: block; }
+
+h1, h2, h3 { font-family: var(--display); font-weight: 500; margin: 0; }
+h2 {
+  font-size: clamp(2.1rem, 5.2vw, 3.6rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  margin-bottom: 1.25rem;
+}
+h3 { font-size: 1.5rem; line-height: 1.2; margin-bottom: 0.5rem; }
+
+p { margin: 0 0 1rem; max-width: 62ch; }
+
+a { color: inherit; text-underline-offset: 0.2em; }
+
+:focus-visible {
+  outline: 2px solid var(--mousse);
+  outline-offset: 3px;
+}
+.band--velvet :focus-visible,
+.topbar :focus-visible,
+.hero :focus-visible { outline-color: var(--bougie); }
+
+/* Textes encore à confirmer : repérables d'un coup d'œil */
+.todo {
+  background: repeating-linear-gradient(135deg, rgba(126, 154, 62, .18) 0 6px, transparent 6px 12px);
+  outline: 1px dashed rgba(126, 154, 62, .9);
+  outline-offset: 2px;
+}
+
+.skip {
+  position: absolute;
+  left: -999px;
+  top: 0.5rem;
+  background: var(--creme);
+  color: var(--velours);
+  padding: 0.5rem 1rem;
+  z-index: 100;
+}
+.skip:focus { left: 0.5rem; }
+
+/* ------------------------------------------------------------
+   En-tête
+   ------------------------------------------------------------ */
+.topbar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: var(--entete);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0 clamp(1rem, 3vw, 2.25rem);
+  background: rgba(42, 2, 4, .82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--creme);
+  border-bottom: 1px solid rgba(241, 233, 223, .14);
+}
+
+.mark {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 1.5rem;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+
+.menu { display: flex; gap: clamp(0.9rem, 1.8vw, 1.75rem); }
+.menu a {
+  text-decoration: none;
+  font-size: 0.95rem;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid transparent;
+  transition: border-color .2s;
+}
+.menu a:hover { border-bottom-color: var(--bougie); }
+
+.tools { display: flex; align-items: center; gap: 0.75rem; }
+
+.lang { display: flex; border: 1px solid rgba(241, 233, 223, .45); border-radius: 999px; overflow: hidden; }
+.lang button {
+  font: inherit;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  color: var(--creme);
+  background: transparent;
+  border: 0;
+  padding: 0.35rem 0.8rem;
+  cursor: pointer;
+}
+.lang button[aria-pressed="true"] { background: var(--creme); color: var(--velours); }
+
+.menu-toggle {
+  display: none;
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--creme);
+  background: transparent;
+  border: 1px solid rgba(241, 233, 223, .45);
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  cursor: pointer;
+}
+
+@media (max-width: 960px) {
+  .menu-toggle { display: inline-block; }
+  .menu {
+    position: absolute;
+    top: var(--entete);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    padding: 0.5rem clamp(1rem, 3vw, 2.25rem) 1.25rem;
+    background: var(--velours-nuit);
+    border-bottom: 1px solid rgba(241, 233, 223, .14);
+    display: none;
+  }
+  .menu.is-open { display: flex; }
+  .menu a { padding: 0.85rem 0; font-size: 1.1rem; border-bottom: 1px solid rgba(241, 233, 223, .1); }
+}
+
+/* ------------------------------------------------------------
+   Accueil : le rideau de velours s'ouvre une seule fois
+   ------------------------------------------------------------ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: calc(var(--entete) + 2rem) calc(var(--drape) + 1rem) 3rem;
+  background: radial-gradient(ellipse 80% 70% at 50% 35%, var(--velours-clair) 0%, var(--velours) 48%, var(--velours-nuit) 100%);
+  color: var(--creme);
+  text-align: center;
+  --drape: clamp(24px, 8vw, 190px);
+}
+
+.hero-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% -5%, rgba(236, 220, 184, .38), transparent 52%);
+  pointer-events: none;
+}
+
+.hero-content { position: relative; z-index: 1; width: 100%; max-width: 40rem; }
+
+.names {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 400;
+  line-height: 0.95;
+  margin-bottom: 1.5rem;
+}
+.name { font-size: clamp(3rem, 11vw, 7.25rem); letter-spacing: -0.02em; }
+.amp { font-style: italic; font-size: clamp(1.8rem, 4.5vw, 3rem); color: var(--bougie); margin: 0.15em 0 0.2em; }
+
+.hero-date {
+  font-family: var(--display);
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  margin: 0 auto 0.25rem;
+}
+.hero-place { margin: 0 auto 2rem; letter-spacing: 0.03em; color: var(--bougie); }
+
+.countdown { display: flex; justify-content: center; gap: clamp(1.25rem, 4vw, 2.5rem); margin-bottom: 2rem; }
+.countdown > div { display: flex; flex-direction: column; align-items: center; min-width: 4rem; }
+.countdown .num { font-family: var(--display); font-size: clamp(2rem, 5vw, 3rem); line-height: 1; font-variant-numeric: tabular-nums; }
+.countdown .lbl { font-size: 0.9rem; color: var(--bougie); margin-top: 0.3rem; }
+
+.hero-invite { margin: 0 auto; font-weight: 300; font-size: 1.1rem; max-width: 34ch; }
+
+/* Rideau */
+.curtain {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0) 78%, rgba(0, 0, 0, .55)),
+    repeating-linear-gradient(90deg, #3b0307 0, #6a0c14 14px, #8f1923 27px, #5a0911 41px, #3b0307 56px);
+  box-shadow: 0 0 40px rgba(0, 0, 0, .55);
+}
+.curtain--left  { left: 0;  transform: translateX(calc(-100% + var(--drape))); animation: ouvre-gauche 2.6s cubic-bezier(.7, 0, .2, 1) .5s both; }
+.curtain--right { right: 0; transform: translateX(calc(100% - var(--drape)));  animation: ouvre-droite 2.6s cubic-bezier(.7, 0, .2, 1) .5s both; }
+
+@keyframes ouvre-gauche { from { transform: translateX(0); }  to { transform: translateX(calc(-100% + var(--drape))); } }
+@keyframes ouvre-droite { from { transform: translateX(0); }  to { transform: translateX(calc(100% - var(--drape))); } }
+
+.hero-content { animation: apparait 1.8s ease 1.2s both; }
+@keyframes apparait { from { opacity: 0; } to { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .curtain--left, .curtain--right, .hero-content { animation: none; }
+}
+
+/* ------------------------------------------------------------
+   Sections
+   ------------------------------------------------------------ */
+.band { padding: clamp(4rem, 9vw, 8rem) clamp(1.25rem, 4vw, 2.5rem); }
+.band--tight { padding-top: 0; }
+.band--cream { background: var(--creme); color: var(--encre); }
+.band--sage { background: var(--sauge); color: var(--encre); }
+.band--velvet { background: var(--velours); color: var(--creme); }
+.band--center { text-align: center; }
+.band--center p { margin-left: auto; margin-right: auto; }
+
+.wrap { max-width: 1080px; margin: 0 auto; }
+.narrow { max-width: 44rem; }
+
+.lede { font-size: 1.2rem; font-weight: 300; }
+
+/* Arche : emplacement de photo, on met le fichier dans /images */
+.arch {
+  aspect-ratio: 3 / 4;
+  width: 100%;
+  max-width: 24rem;
+  border-radius: 999px 999px 0 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, .5), transparent 45%),
+    linear-gradient(160deg, var(--sauge), var(--mousse));
+}
+.arch img { width: 100%; height: 100%; object-fit: cover; }
+
+.split { display: grid; grid-template-columns: minmax(0, 24rem) 1fr; gap: clamp(2rem, 6vw, 5rem); align-items: center; }
+.split--reverse { grid-template-columns: 1fr minmax(0, 24rem); }
+.split--reverse .arch { justify-self: end; }
+@media (max-width: 760px) {
+  .split, .split--reverse { grid-template-columns: 1fr; }
+  .split--reverse .arch { justify-self: start; order: 2; }
+  .arch { max-width: 18rem; }
+}
+
+/* Boutons */
+.btn {
+  display: inline-block;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 0.85rem 2rem;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  transition: background .2s, color .2s;
+}
+.btn--dark { color: var(--velours); }
+.btn--dark:hover { background: var(--velours); color: var(--creme); }
+.btn--light { background: var(--creme); color: var(--velours); border-color: var(--creme); font-size: 1.1rem; padding: 1rem 2.5rem; }
+.btn--light:hover { background: transparent; color: var(--creme); }
+
+/* ------------------------------------------------------------
+   Programme
+   ------------------------------------------------------------ */
+.days { list-style: none; margin: 3rem 0 0; padding: 0; }
+.day {
+  display: grid;
+  grid-template-columns: minmax(7rem, 11rem) 1fr;
+  gap: 1rem clamp(1.5rem, 5vw, 3.5rem);
+  padding: 2.25rem 0;
+  border-top: 1px solid rgba(241, 233, 223, .28);
+}
+.day:last-child { border-bottom: 1px solid rgba(241, 233, 223, .28); }
+.day-date { display: flex; flex-direction: column; }
+.day-num { font-family: var(--display); font-size: clamp(3.5rem, 9vw, 6rem); line-height: .85; }
+.day-month { margin-top: 0.6rem; color: var(--bougie); font-size: 0.95rem; }
+.day-body h3 { font-size: clamp(1.5rem, 3vw, 2rem); }
+.day-body p { margin-bottom: 0.5rem; }
+.day .time { font-style: italic; color: var(--bougie); display: inline-block; padding: 0 0.35rem; }
+
+.day--main { background: linear-gradient(90deg, rgba(236, 220, 184, .1), transparent 75%); }
+.day--main .day-num { color: var(--bougie); }
+
+@media (max-width: 560px) {
+  .day { grid-template-columns: 1fr; gap: 0.75rem; }
+  .day-date { flex-direction: row; align-items: baseline; gap: 0.75rem; }
+  .day-month { margin-top: 0; }
+}
+
+/* ------------------------------------------------------------
+   Venir
+   ------------------------------------------------------------ */
+.modes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(2rem, 6vw, 4.5rem); margin: 2.5rem 0 2rem; }
+.mode { padding: 1.75rem 0 1rem; border-top: 1px solid rgba(75, 5, 8, .25); }
+.mode h3 { font-size: 1.35rem; }
+@media (max-width: 760px) {
+  .modes { grid-template-columns: 1fr; }
+}
+
+/* ------------------------------------------------------------
+   Tenue : les couleurs en arches
+   ------------------------------------------------------------ */
+.swatches { list-style: none; margin: 2.5rem 0; padding: 0; display: flex; flex-wrap: wrap; gap: clamp(1rem, 3vw, 2rem); }
+.swatches li { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; }
+.swatch {
+  width: clamp(5rem, 16vw, 8rem);
+  aspect-ratio: 3 / 4;
+  background: var(--c);
+  border-radius: 999px 999px 0 0;
+  box-shadow: inset 0 0 0 1px rgba(42, 12, 14, .18);
+}
+.swatch-name { font-family: var(--display); font-size: 1.15rem; }
+
+/* ------------------------------------------------------------
+   FAQ
+   ------------------------------------------------------------ */
+details { border-top: 1px solid rgba(75, 5, 8, .25); }
+details:last-of-type { border-bottom: 1px solid rgba(75, 5, 8, .25); }
+summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 0;
+  font-family: var(--display);
+  font-size: 1.3rem;
+}
+summary::-webkit-details-marker { display: none; }
+summary::after {
+  content: "+";
+  font-family: var(--texte);
+  font-weight: 300;
+  font-size: 1.8rem;
+  line-height: 1;
+  flex: none;
+  transition: transform .25s;
+}
+details[open] > summary::after { transform: rotate(45deg); }
+details > p { padding-bottom: 0.25rem; }
+
+/* ------------------------------------------------------------
+   Pied de page
+   ------------------------------------------------------------ */
+.footer { background: var(--velours-nuit); color: var(--creme); text-align: center; padding: 3rem 1.25rem; }
+.footer p { margin: 0 auto 0.4rem; }
+.footer-names { font-family: var(--display); font-style: italic; font-size: 2rem; }
