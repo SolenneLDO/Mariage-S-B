@@ -7,10 +7,10 @@ const CONFIG = {
   rsvpUrl: "",
 
   // Adresse e-mail affichée dans la FAQ et utilisée par le bouton si rsvpUrl est vide.
-  contactEmail: "votre-email@exemple.com",
+  contactEmail: "solenneandbrad@gmail.com",
 
   // Date et heure du mariage (heure de Paris, UTC+2 en juillet), pour le compte à rebours.
-  weddingDate: "2027-07-03T00:00:00+02:00",
+  weddingDate: "2027-07-03T14:00:00+02:00",
 };
 
 /* ------------------------------------------------------------
